@@ -1,0 +1,92 @@
+﻿node.exe :  ΓÜá 
+Warning: Next.js 
+inferred your 
+workspace root, but it 
+may not be correct.
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Users\iis02\AppData
+\Roaming\ ...
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: ( ΓÜá Warning:   
+  N...not be correc    
+t.:String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+ We detected multiple 
+lockfiles and selected 
+the directory of C:\Use
+rs\iis02\OneDrive\Docum
+ents\Projects\package-l
+ock.json as the root 
+directory.
+ To silence this 
+warning, set `outputFil
+eTracingRoot` in your 
+Next.js config, or 
+consider removing one 
+of the lockfiles if 
+it's not needed.
+   See https://nextjs.o
+rg/docs/app/api-referen
+ce/config/next-config-j
+s/output#caveats for 
+more information.
+ Detected additional 
+lockfiles: 
+   * C:\Users\iis02\One
+Drive\Documents\Project
+s\New\cdpl\IIS019\pnpm-
+lock.yaml
+
+   Γû▓ Next.js 15.5.12
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully in 3.9s
+   Skipping linting
+   Checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/21) ...
+Error occurred 
+prerendering page 
+"/privacy-policy". 
+Read more: https://next
+js.org/docs/messages/pr
+erender-error
+Error: Event handlers 
+cannot be passed to 
+Client Component props.
+  {className: ..., 
+onSubmit: function 
+onSubmit, children: 
+...}
+                       
+      ^^^^^^^^^^^^^^^^^
+If you need 
+interactivity, 
+consider converting 
+part of this to a 
+Client Component.
+    at stringify 
+(<anonymous>) {
+  digest: '3685697078'
+}
+Export encountered an 
+error on /(info)/privac
+y-policy/page: 
+/privacy-policy, 
+exiting the build.
+ Γ¿» Next.js build 
+worker exited with 
+code: 1 and signal: 
+null

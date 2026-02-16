@@ -1,0 +1,9 @@
+{
+    "name": "@naman-ent/config",
+    "version": "0.0.0",
+    "private": true,
+    "exports": {
+        "./typescript": "./typescript/tsconfig.base.json",
+        "./eslint": "./eslint/base.js"
+    }
+}

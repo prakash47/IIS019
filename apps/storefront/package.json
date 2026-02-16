@@ -1,0 +1,39 @@
+{
+    "name": "@naman-ent/storefront",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev --turbopack",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint",
+        "type-check": "tsc --noEmit"
+    },
+    "dependencies": {
+        "next": "^16.1.6",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+        "@medusajs/js-sdk": "^2.12.5",
+        "clsx": "^2.1.1",
+        "tailwind-merge": "^3.3.0",
+        "framer-motion": "^12.15.0",
+        "embla-carousel-react": "^8.6.0",
+        "embla-carousel-autoplay": "^8.6.0",
+        "react-hot-toast": "^2.5.2",
+        "lucide-react": "^0.511.0",
+        "date-fns": "^4.1.0",
+        "zod": "^3.25.20"
+    },
+    "devDependencies": {
+        "@types/node": "^24.0.3",
+        "@types/react": "^19.1.6",
+        "@types/react-dom": "^19.1.6",
+        "typescript": "^5.8.3",
+        "@tailwindcss/postcss": "^4.1.18",
+        "tailwindcss": "^4.1.18",
+        "postcss": "^8.5.5",
+        "eslint": "^9.28.0",
+        "eslint-config-next": "^16.1.6",
+        "@eslint/eslintrc": "^3.3.1"
+    }
+}

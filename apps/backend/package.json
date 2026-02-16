@@ -1,0 +1,23 @@
+{
+    "name": "@naman-ent/backend",
+    "version": "0.1.0",
+    "private": true,
+    "description": "Naman Ent — MedusaJS v2 Backend",
+    "scripts": {
+        "dev": "medusa develop",
+        "build": "medusa build",
+        "seed": "medusa exec medusa-config -- medusa seed -f data/seed.json",
+        "start": "medusa start",
+        "type-check": "tsc --noEmit",
+        "migrations": "medusa migrations run"
+    },
+    "dependencies": {
+        "@medusajs/medusa": "^2.7.1",
+        "@medusajs/admin-sdk": "^2.7.1",
+        "@medusajs/framework": "^2.7.1"
+    },
+    "devDependencies": {
+        "typescript": "^5.8.3",
+        "@types/node": "^24.0.3"
+    }
+}
