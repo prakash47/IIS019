@@ -6,14 +6,14 @@ import { medusa } from "@/lib/medusa/client";
 // ─── Login customer ────────────────────────────────────────────────────────────
 export async function loginCustomer(email: string, password: string) {
     try {
-        const response = await medusa.auth.login("customer", "emailpass", {
+        const token = await medusa.auth.login("customer", "emailpass", {
             email,
             password,
-        });
+        }) as string;
         // Store token in cookie
-        if (response.token) {
+        if (token) {
             const cookieStore = await cookies();
-            cookieStore.set("medusa_customer_token", String(response.token), {
+            cookieStore.set("medusa_customer_token", token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === "production",
                 sameSite: "strict",
@@ -42,22 +42,28 @@ export async function registerCustomer(data: {
     phone?: string;
 }) {
     try {
-        // Step 1: Create auth identity
+        // Step 1: Create auth identity — returns JWT token as string in Medusa v2
         const token = await medusa.auth.register("customer", "emailpass", {
             email: data.email,
             password: data.password,
-        });
+        }) as string;
 
-        // Step 2: Create customer profile using the token
-        const customerResponse = await medusa.store.customer.create(
-            { email: data.email, first_name: data.first_name, last_name: data.last_name, phone: data.phone },
+        // Step 2: Create customer profile (pass token via Authorization header)
+        await medusa.store.customer.create(
+            {
+                email: data.email,
+                first_name: data.first_name,
+                last_name: data.last_name,
+                ...(data.phone ? { phone: data.phone } : {}),
+            },
+            {},
             { Authorization: `Bearer ${token}` }
         );
 
-        // Step 3: Log them in
+        // Step 3: Log them in with email/password
         await loginCustomer(data.email, data.password);
 
-        return { success: true, customer: customerResponse.customer };
+        return { success: true };
     } catch (error) {
         return {
             success: false,
@@ -66,6 +72,7 @@ export async function registerCustomer(data: {
         };
     }
 }
+
 
 // ─── Logout customer ───────────────────────────────────────────────────────────
 export async function logoutCustomer() {

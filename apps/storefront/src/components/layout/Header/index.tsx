@@ -4,10 +4,13 @@ import { useState } from "react";
 import Link from "next/link";
 import { Search, ShoppingBag, User, Menu, X, Heart } from "lucide-react";
 import { NAV_LINKS } from "@/lib/constants/navigation";
+import { useCartStore, useCartItemCount } from "@/lib/store/cart-store";
 
 export default function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [searchOpen, setSearchOpen] = useState(false);
+    const { openCart } = useCartStore();
+    const cartCount = useCartItemCount();
 
     return (
         <header className="sticky top-0 z-40 w-full">
@@ -91,16 +94,18 @@ export default function Header() {
                             </Link>
 
                             {/* Cart */}
-                            <Link
-                                href="/cart"
+                            <button
+                                onClick={openCart}
                                 className="relative p-2.5 rounded-lg text-gray-600 hover:text-primary-600 hover:bg-primary-50 dark:text-gray-400 dark:hover:text-primary-400 dark:hover:bg-primary-950/30 transition-colors"
-                                aria-label="Shopping cart"
+                                aria-label={`Shopping cart (${cartCount} items)`}
                             >
                                 <ShoppingBag className="w-5 h-5" />
-                                <span className="absolute -top-0.5 -right-0.5 h-4 w-4 rounded-full bg-accent-500 text-white text-[10px] font-bold flex items-center justify-center">
-                                    0
-                                </span>
-                            </Link>
+                                {cartCount > 0 && (
+                                    <span className="absolute -top-0.5 -right-0.5 h-4 w-4 rounded-full bg-accent-500 text-white text-[10px] font-bold flex items-center justify-center">
+                                        {cartCount > 9 ? "9+" : cartCount}
+                                    </span>
+                                )}
+                            </button>
                         </div>
                     </div>
                 </div>

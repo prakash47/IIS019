@@ -7,57 +7,74 @@ description: How to start all services and servers for the Naman Ent ecommerce p
 After restarting your system, follow these steps **in order** to get everything running.
 
 ## Step 1: Start Docker Desktop
-Open **Docker Desktop** from the Start Menu and wait until the system tray icon turns green ("Docker Desktop is running").
+Open **Docker Desktop** from the Start Menu and wait until the system tray icon turns green.
 
 ## Step 2: Start Docker containers (PostgreSQL, Redis, MeiliSearch)
 // turbo
 ```powershell
-cd c:\Users\iis02\OneDrive\Documents\Projects\New\cdpl\IIS019
+cd C:\Projects\IIS019
 docker compose up -d
 ```
 
-## Step 3: Verify Docker services
+## Step 3: Verify Docker services are running
 // turbo
 ```powershell
 docker compose ps
 ```
-All 3 services should show **"running"**: `naman-ent-postgres`, `naman-ent-redis`, `naman-ent-meilisearch`.
+All 3 should show **running**: `naman-ent-postgres`, `naman-ent-redis`, `naman-ent-meilisearch`.
 
 ## Step 4: Start MedusaJS Backend (port 9000)
+Open a terminal:
 ```powershell
-cd c:\Users\iis02\OneDrive\Documents\Projects\New\cdpl\IIS019\apps\backend
+cd C:\Projects\IIS019\apps\backend
+npm install        # only needed if node_modules is missing
 node node_modules\@medusajs\cli\cli.js develop
 ```
-Wait for: `Server is ready on port: 9000`
+Wait for: `✔ Server is ready on port: 9000`
 
 **URLs:**
 - API: http://localhost:9000
 - Admin Dashboard: http://localhost:9000/app
-- Admin login: `admin@namanent.com` / `admin123`
+- Login: `admin@namanent.com` / `admin123`
 
 ## Step 5: Start Next.js Storefront (port 3000)
-Open a **new terminal**:
+Open a **new** terminal:
 ```powershell
-cd c:\Users\iis02\OneDrive\Documents\Projects\New\cdpl\IIS019
+cd C:\Projects\IIS019
 pnpm --filter @naman-ent/storefront dev
 ```
 Wait for: `Ready in XXXms`
 
 **URL:** http://localhost:3000
 
-## Summary of Running Services
+---
 
-| Service | Port | Command to Start |
-|---------|------|-----------------|
-| PostgreSQL | 5432 | `docker compose up -d` |
+## Summary of All Services
+
+| Service | Port | Start Command |
+|---------|------|--------------|
+| PostgreSQL | 5432 | `docker compose up -d` (from `C:\Projects\IIS019`) |
 | Redis | 6379 | `docker compose up -d` |
 | MeiliSearch | 7700 | `docker compose up -d` |
-| Medusa Backend | 9000 | `node node_modules\@medusajs\cli\cli.js develop` (from `apps/backend/`) |
-| Next.js Storefront | 3000 | `pnpm --filter @naman-ent/storefront dev` (from project root) |
+| Medusa Backend | 9000 | `node node_modules\@medusajs\cli\cli.js develop` (from `apps\backend\`) |
+| Next.js Storefront | 3000 | `pnpm --filter @naman-ent/storefront dev` (from `C:\Projects\IIS019`) |
 
 ## Shutting Down
 
-To stop everything:
-1. Press `Ctrl+C` in the storefront terminal
-2. Press `Ctrl+C` in the backend terminal
-3. Run `docker compose down` from the project root (or just close Docker Desktop)
+1. `Ctrl+C` in the storefront terminal
+2. `Ctrl+C` in the backend terminal
+3. `docker compose down` from project root (or just close Docker Desktop)
+
+## If node_modules are missing after restart
+
+For the **backend** (npm):
+```powershell
+cd C:\Projects\IIS019\apps\backend
+npm install    # ~2-3 min first time, then faster
+```
+
+For the **storefront/root** (pnpm):
+```powershell
+cd C:\Projects\IIS019
+pnpm install   # ~30 seconds (packages cached in C:\pnpm-store)
+```

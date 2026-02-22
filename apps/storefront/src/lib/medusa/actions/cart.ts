@@ -24,7 +24,7 @@ async function getOrCreateCart() {
 // ─── Add item to cart ─────────────────────────────────────────────────────────
 export async function addToCart(variantId: string, quantity: number = 1) {
     const cart = await getOrCreateCart();
-    const response = await medusa.store.cart.lineItems.create(cart.id, {
+    const response = await medusa.store.cart.createLineItem(cart.id, {
         variant_id: variantId,
         quantity,
     });
@@ -35,7 +35,7 @@ export async function addToCart(variantId: string, quantity: number = 1) {
 export async function removeFromCart(lineItemId: string) {
     const cartId = await getCartId();
     if (!cartId) return null;
-    const response = await medusa.store.cart.lineItems.delete(
+    const response = await medusa.store.cart.deleteLineItem(
         cartId,
         lineItemId
     );
@@ -46,7 +46,7 @@ export async function removeFromCart(lineItemId: string) {
 export async function updateCartItem(lineItemId: string, quantity: number) {
     const cartId = await getCartId();
     if (!cartId) return null;
-    const response = await medusa.store.cart.lineItems.update(
+    const response = await medusa.store.cart.updateLineItem(
         cartId,
         lineItemId,
         { quantity }

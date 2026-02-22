@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Outfit } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { CartDrawer } from "@/components/commerce/CartDrawer";
 import { OrganizationJsonLd, WebsiteJsonLd } from "@/components/seo/JsonLd";
 import "./globals.css";
 
@@ -84,6 +85,7 @@ export default function RootLayout({
                 <OrganizationJsonLd />
                 <WebsiteJsonLd />
                 <Header />
+                <CartDrawer />
                 <main className="flex-1">{children}</main>
                 <Footer />
             </body>
