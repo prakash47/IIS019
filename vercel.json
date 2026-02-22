@@ -1,0 +1,21 @@
+{
+    "version": 2,
+    "framework": "nextjs",
+    "buildCommand": "pnpm --filter @naman-ent/storefront build",
+    "outputDirectory": "apps/storefront/.next",
+    "installCommand": "pnpm install",
+    "env": {
+        "NEXT_PUBLIC_BASE_URL": "https://namanent.com"
+    },
+    "build": {
+        "env": {
+            "NEXT_PUBLIC_BASE_URL": "https://namanent.com"
+        }
+    },
+    "rewrites": [
+        {
+            "source": "/sitemap.xml",
+            "destination": "/sitemap.xml"
+        }
+    ]
+}

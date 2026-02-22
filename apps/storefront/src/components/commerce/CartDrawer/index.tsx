@@ -10,6 +10,7 @@ import { useCartStore, useCartOpen, useCartItemCount } from "@/lib/store/cart-st
 import { removeFromCart, updateCartItem } from "@/lib/medusa/actions/cart";
 import { getCart } from "@/lib/medusa/queries/cart";
 import { getCartIdClient } from "@/lib/utils/cart-cookie.client";
+import { toast } from "@/lib/store/toast-store";
 
 // ─── Price formatter ──────────────────────────────────────────────────────────
 function formatPrice(amount: number, currencyCode: string = "inr") {
@@ -143,6 +144,7 @@ export function CartDrawer() {
             if (cartId) {
                 const updated = await getCart(cartId);
                 setCart(updated);
+                toast.success("Item removed", "Product removed from your cart");
             }
         });
     };

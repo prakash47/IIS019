@@ -9,6 +9,7 @@ import { getCollections } from "@/lib/medusa/queries/collections";
 import { getCategories } from "@/lib/medusa/queries/categories";
 import { addToCart } from "@/lib/medusa/actions/cart";
 import { useCartStore } from "@/lib/store/cart-store";
+import { toast } from "@/lib/store/toast-store";
 import type { HttpTypes } from "@medusajs/types";
 
 const PRODUCTS_PER_PAGE = 12;
@@ -125,13 +126,17 @@ export default function ProductsPageClient() {
     const handleAddToCart = async (variantId: string) => {
         setIsAdding(variantId);
         try {
-            const updatedCart = await addToCart(variantId, 1);
-            if (updatedCart) {
-                setCart(updatedCart);
+            const result = await addToCart(variantId, 1);
+            if (result.success && result.cart) {
+                setCart(result.cart);
                 openCart();
+                toast.success("Added to cart!");
+            } else {
+                toast.error("Failed to add", result.error ?? "Please try again.");
             }
         } catch (error) {
             console.error("Failed to add to cart:", error);
+            toast.error("Failed to add", "An unexpected error occurred.");
         } finally {
             setIsAdding(null);
         }
@@ -205,8 +210,8 @@ export default function ProductsPageClient() {
                                     key={i}
                                     onClick={() => setPage(i)}
                                     className={`h-9 w-9 rounded-lg text-sm font-medium transition-all ${i === page
-                                            ? "bg-primary-600 text-white shadow-sm"
-                                            : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5"
+                                        ? "bg-primary-600 text-white shadow-sm"
+                                        : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5"
                                         }`}
                                 >
                                     {i + 1}

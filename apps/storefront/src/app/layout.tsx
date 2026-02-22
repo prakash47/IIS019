@@ -3,6 +3,7 @@ import { Inter, Outfit } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { CartDrawer } from "@/components/commerce/CartDrawer";
+import { ToastContainer } from "@/components/ui/ToastContainer";
 import { OrganizationJsonLd, WebsiteJsonLd } from "@/components/seo/JsonLd";
 import "./globals.css";
 
@@ -86,6 +87,7 @@ export default function RootLayout({
                 <WebsiteJsonLd />
                 <Header />
                 <CartDrawer />
+                <ToastContainer />
                 <main className="flex-1">{children}</main>
                 <Footer />
             </body>

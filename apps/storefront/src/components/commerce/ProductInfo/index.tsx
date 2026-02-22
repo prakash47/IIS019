@@ -6,6 +6,7 @@ import type { HttpTypes } from "@medusajs/types";
 import { cn } from "@/lib/utils/cn";
 import { addToCart } from "@/lib/medusa/actions/cart";
 import { useCartStore } from "@/lib/store/cart-store";
+import { toast } from "@/lib/store/toast-store";
 
 // ─── Price formatter ──────────────────────────────────────────────────────────
 function formatPrice(amount: number, currencyCode: string = "inr") {
@@ -73,16 +74,15 @@ export function ProductInfo({ product }: ProductInfoProps) {
     const handleAddToCart = () => {
         if (!canAddToCart) return;
         startTransition(async () => {
-            try {
-                const updatedCart = await addToCart(selectedVariant.id!, quantity);
-                if (updatedCart) {
-                    setCart(updatedCart);
-                    setAddedToCart(true);
-                    openCart();
-                    setTimeout(() => setAddedToCart(false), 2500);
-                }
-            } catch (err) {
-                console.error("Add to cart failed:", err);
+            const result = await addToCart(selectedVariant.id!, quantity);
+            if (result.success && result.cart) {
+                setCart(result.cart);
+                setAddedToCart(true);
+                openCart();
+                toast.success("Added to cart!", product.title);
+                setTimeout(() => setAddedToCart(false), 2500);
+            } else {
+                toast.error("Failed to add", result.error ?? "Please try again.");
             }
         });
     };
