@@ -12,5 +12,27 @@ module.exports = defineConfig({
       jwtSecret: process.env.JWT_SECRET || "supersecret",
       cookieSecret: process.env.COOKIE_SECRET || "supersecret",
     }
-  }
+  },
+  admin: {
+    // ── Vite plugin: replace "Welcome to Medusa" text at build time ──────────
+    vite: () => ({
+      plugins: [
+        {
+          name: "naman-ent-branding",
+          enforce: "post" as const,
+          transform(code: string, id: string) {
+            // Target the compiled dashboard bundle
+            if (id.includes("@medusajs/dashboard") || id.includes("app.js")) {
+              return {
+                code: code
+                  .replace(/Welcome to Medusa/g, "Welcome to Naman Enterprises")
+                  .replace(/Sign in to access the account area/g, "Sign in to access the admin portal"),
+                map: null,
+              };
+            }
+          },
+        },
+      ],
+    }),
+  },
 })

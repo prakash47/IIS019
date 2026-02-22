@@ -63,7 +63,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
   const salesChannelModuleService = container.resolve(Modules.SALES_CHANNEL);
   const storeModuleService = container.resolve(Modules.STORE);
 
-  const countries = ["gb", "de", "dk", "se", "fr", "es", "it"];
+  const countries = ["in"];
 
   logger.info("Seeding store data...");
   const [store] = await storeModuleService.listStores();
@@ -92,11 +92,8 @@ export default async function seedDemoData({ container }: ExecArgs) {
       store_id: store.id,
       supported_currencies: [
         {
-          currency_code: "eur",
+          currency_code: "inr",
           is_default: true,
-        },
-        {
-          currency_code: "usd",
         },
       ],
     },
@@ -106,6 +103,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
     input: {
       selector: { id: store.id },
       update: {
+        name: "Naman Ent Store",
         default_sales_channel_id: defaultSalesChannel[0].id,
       },
     },
@@ -115,9 +113,9 @@ export default async function seedDemoData({ container }: ExecArgs) {
     input: {
       regions: [
         {
-          name: "Europe",
-          currency_code: "eur",
-          countries,
+          name: "India",
+          currency_code: "inr",
+          countries: ["in"],
           payment_providers: ["pp_system_default"],
         },
       ],
@@ -142,10 +140,10 @@ export default async function seedDemoData({ container }: ExecArgs) {
     input: {
       locations: [
         {
-          name: "European Warehouse",
+          name: "Mumbai Warehouse",
           address: {
-            city: "Copenhagen",
-            country_code: "DK",
+            city: "Mumbai",
+            country_code: "IN",
             address_1: "",
           },
         },
@@ -257,16 +255,12 @@ export default async function seedDemoData({ container }: ExecArgs) {
         },
         prices: [
           {
-            currency_code: "usd",
-            amount: 10,
-          },
-          {
-            currency_code: "eur",
-            amount: 10,
+            currency_code: "inr",
+            amount: 99,
           },
           {
             region_id: region.id,
-            amount: 10,
+            amount: 99,
           },
         ],
         rules: [
@@ -295,16 +289,12 @@ export default async function seedDemoData({ container }: ExecArgs) {
         },
         prices: [
           {
-            currency_code: "usd",
-            amount: 10,
-          },
-          {
-            currency_code: "eur",
-            amount: 10,
+            currency_code: "inr",
+            amount: 199,
           },
           {
             region_id: region.id,
-            amount: 10,
+            amount: 199,
           },
         ],
         rules: [

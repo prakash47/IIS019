@@ -1,0 +1,90 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Naman Enterprises — Medusa Admin Global Styles
+   Injected into every admin page including login.
+───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Color palette upgrade ── */
+:root {
+  --naman-primary: #6366f1;
+  --naman-primary-dark: #4f46e5;
+  --naman-accent: #8b5cf6;
+}
+
+/* ── Sidebar / shell branding ── */
+[data-sidebar] {
+  background: linear-gradient(180deg, #1a1a3e 0%, #16162e 100%) !important;
+  border-right: 1px solid rgba(99, 102, 241, 0.15) !important;
+}
+
+/* Sidebar logo area — replace Medusa logo text */
+[data-sidebar] [data-logo] {
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+}
+
+/* ── Nav links ── */
+[data-sidebar] a {
+  border-radius: 8px !important;
+  transition: all 0.15s ease !important;
+}
+[data-sidebar] a:hover {
+  background: rgba(99, 102, 241, 0.12) !important;
+  color: #a5b4fc !important;
+}
+[data-sidebar] a[data-active="true"],
+[data-sidebar] a[aria-current="page"] {
+  background: rgba(99, 102, 241, 0.2) !important;
+  color: #c7d2fe !important;
+  border-left: 3px solid #6366f1 !important;
+}
+
+/* ── Main content area ── */
+main {
+  background: #0f0f1a !important;
+}
+
+/* ── Cards / panels ── */
+[data-ui-element="container"],
+.bg-ui-bg-base {
+  background: #1a1a2e !important;
+  border-color: rgba(99, 102, 241, 0.1) !important;
+}
+
+/* ── Buttons — primary upgrade ── */
+button[data-variant="primary"],
+.bg-ui-button-primary {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+  border: none !important;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3) !important;
+}
+button[data-variant="primary"]:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.4) !important;
+}
+
+/* ── Scrollbars ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.25);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.4);
+}
+
+/* ── Table rows ── */
+tbody tr:hover {
+  background: rgba(99, 102, 241, 0.05) !important;
+}
+
+/* ── Focus rings ── */
+*:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.5) !important;
+  outline-offset: 2px !important;
+}
+
+/* ── Badges / pills ── */
+[data-ui-element="badge"] {
+  border-radius: 999px !important;
+}
