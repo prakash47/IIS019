@@ -5,8 +5,11 @@ const MEDUSA_BACKEND_URL =
 const PUBLISHABLE_KEY =
     process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "";
 
-export const medusaClient = new Medusa({
+export const medusa = new Medusa({
     baseUrl: MEDUSA_BACKEND_URL,
     debug: process.env.NODE_ENV === "development",
     publishableKey: PUBLISHABLE_KEY,
 });
+
+// Legacy alias
+export const medusaClient = medusa;
