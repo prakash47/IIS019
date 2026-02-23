@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Outfit } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { CartDrawer } from "@/components/commerce/CartDrawer";
@@ -13,9 +13,9 @@ const inter = Inter({
     display: "swap",
 });
 
-const outfit = Outfit({
+const spaceGrotesk = Space_Grotesk({
     subsets: ["latin"],
-    variable: "--font-outfit",
+    variable: "--font-space-grotesk",
     display: "swap",
 });
 
@@ -81,8 +81,8 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
-            <body className="min-h-screen flex flex-col font-sans antialiased">
+        <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
+            <body className="min-h-screen flex flex-col font-sans antialiased bg-[#0A0F1E] text-[#F9FAFB]">
                 <OrganizationJsonLd />
                 <WebsiteJsonLd />
                 <Header />

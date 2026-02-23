@@ -2,159 +2,273 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Search, ShoppingBag, User, Menu, X, Heart } from "lucide-react";
-import { NAV_LINKS } from "@/lib/constants/navigation";
+import { Search, ShoppingBag, User, Menu, X, Package, ChevronDown, Zap } from "lucide-react";
 import { useCartStore, useCartItemCount } from "@/lib/store/cart-store";
+
+const CATEGORY_NAV = [
+    { label: "Today's Deals", href: "/products?sale=true" },
+    { label: "New Arrivals", href: "/collections/new-arrivals" },
+    { label: "Gift Guides", href: "/collections/gift-guides" },
+    { label: "Support", href: "/help" },
+];
+
+const CATEGORIES_DROPDOWN = [
+    { label: "Keyboards", href: "/collections/keyboards" },
+    { label: "Mice", href: "/collections/mice" },
+    { label: "Headsets", href: "/collections/headsets" },
+    { label: "Monitors", href: "/collections/monitors" },
+    { label: "Cables & Accessories", href: "/collections/accessories" },
+    { label: "Controllers", href: "/collections/controllers" },
+    { label: "Chairs", href: "/collections/chairs" },
+];
 
 export default function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const [searchOpen, setSearchOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [catOpen, setCatOpen] = useState(false);
     const { openCart } = useCartStore();
     const cartCount = useCartItemCount();
 
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (searchQuery.trim()) window.location.href = `/products?q=${encodeURIComponent(searchQuery)}`;
+    };
+
     return (
-        <header className="sticky top-0 z-40 w-full">
-            {/* Top bar */}
-            <div className="bg-primary-900 text-white text-xs sm:text-sm text-center py-2 px-4">
-                <p>
-                    Free shipping on orders above ₹999 •{" "}
-                    <Link href="/products" className="underline underline-offset-2 hover:text-accent-300 transition-colors">
-                        Shop Now
-                    </Link>
-                </p>
+        <header style={{ position: "sticky", top: 0, zIndex: 50, width: "100%" }}>
+
+            {/* ── Announcement Bar ── */}
+            <div style={{
+                background: "#0A0F1E",
+                borderBottom: "1px solid #1F2937",
+                textAlign: "center",
+                padding: "7px 16px",
+                fontSize: 13,
+                fontWeight: 600,
+                color: "#9CA3AF",
+                letterSpacing: "0.02em",
+            }}>
+                🛒{" "}
+                <span style={{
+                    background: "linear-gradient(90deg, #7B2FFF, #00D4FF)",
+                    WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
+                }}>
+                    FREE WORLDWIDE SHIPPING ON ORDERS OVER ₹999 | USE CODE: NAMANENT20
+                </span>
             </div>
 
-            {/* Main header */}
-            <div className="bg-white/80 dark:bg-surface-dark/80 backdrop-blur-xl border-b border-gray-200/60 dark:border-gray-700/60">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="flex h-16 items-center justify-between gap-4">
-                        {/* Mobile menu button */}
-                        <button
-                            className="lg:hidden p-2 -ml-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800 transition-colors"
-                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                            aria-label="Toggle menu"
-                            aria-expanded={mobileMenuOpen}
-                        >
-                            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-                        </button>
+            {/* ── ROW 1: Logo | Search | Account / Orders / Cart ── */}
+            <div style={{
+                background: "rgba(10,15,30,0.98)",
+                backdropFilter: "blur(20px)",
+                borderBottom: "1px solid #1F2937",
+                padding: "0 48px",
+            }}>
+                <div style={{
+                    maxWidth: 1440, margin: "0 auto",
+                    display: "flex", alignItems: "center",
+                    height: 64, gap: 20,
+                }}>
+                    {/* Logo */}
+                    <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", flexShrink: 0 }}>
+                        <Zap size={22} color="#00D4FF" fill="#00D4FF" />
+                        <span style={{
+                            fontSize: 20, fontWeight: 800, color: "#F9FAFB",
+                            fontFamily: "Space Grotesk, sans-serif", letterSpacing: "-0.03em",
+                        }}>
+                            Naman<span style={{ color: "#00D4FF" }}>Ent</span>
+                        </span>
+                    </Link>
 
-                        {/* Logo */}
-                        <Link
-                            href="/"
-                            className="flex items-center gap-2 shrink-0"
+                    {/* Search Bar — full width center */}
+                    <form onSubmit={handleSearch} style={{ flex: 1, maxWidth: 640, margin: "0 24px", position: "relative" }}>
+                        <input
+                            type="search"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            placeholder="Search for keyboards, mice, monitors..."
+                            style={{
+                                width: "100%", height: 42, padding: "0 52px 0 16px",
+                                borderRadius: 8,
+                                background: "#1F2937", border: "1px solid #374151",
+                                color: "#F9FAFB", fontSize: 14, outline: "none",
+                                fontFamily: "Inter, sans-serif",
+                                boxSizing: "border-box",
+                            }}
+                            onFocus={(e) => { e.currentTarget.style.borderColor = "#00D4FF"; }}
+                            onBlur={(e) => { e.currentTarget.style.borderColor = "#374151"; }}
+                        />
+                        <button type="submit" style={{
+                            position: "absolute", right: 0, top: 0, height: "100%",
+                            width: 44, background: "#00D4FF", border: "none",
+                            borderRadius: "0 8px 8px 0", cursor: "pointer",
+                            display: "flex", alignItems: "center", justifyContent: "center",
+                            color: "#0A0F1E",
+                        }}>
+                            <Search size={17} />
+                        </button>
+                    </form>
+
+                    {/* Right: Account / Orders / Cart */}
+                    <div style={{ display: "flex", alignItems: "center", gap: 4, marginLeft: "auto", flexShrink: 0 }}>
+                        {/* Account */}
+                        <Link href="/account" style={{
+                            display: "flex", flexDirection: "column", alignItems: "center", gap: 2,
+                            padding: "6px 14px", textDecoration: "none", color: "#9CA3AF",
+                            borderRadius: 8, transition: "color 0.2s ease",
+                        }}
+                            className="icon-btn-labeled"
                         >
-                            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center">
-                                <span className="text-white font-bold text-sm">N</span>
-                            </div>
-                            <span className="text-xl font-display font-bold text-gray-900 dark:text-white hidden sm:block">
-                                Naman Ent
-                            </span>
+                            <User size={20} strokeWidth={1.5} />
+                            <span style={{ fontSize: 11, fontWeight: 500 }}>Account</span>
                         </Link>
 
-                        {/* Desktop navigation */}
-                        <nav className="hidden lg:flex items-center gap-1" aria-label="Main navigation">
-                            {NAV_LINKS.map((link) => (
-                                <Link
-                                    key={link.href}
-                                    href={link.href}
-                                    className="px-3 py-2 text-sm font-medium text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-950/30 transition-all duration-200"
-                                >
-                                    {link.label}
-                                </Link>
-                            ))}
-                        </nav>
+                        {/* Orders */}
+                        <Link href="/orders" style={{
+                            display: "flex", flexDirection: "column", alignItems: "center", gap: 2,
+                            padding: "6px 14px", textDecoration: "none", color: "#9CA3AF",
+                            borderRadius: 8, transition: "color 0.2s ease",
+                        }}
+                            className="icon-btn-labeled"
+                        >
+                            <Package size={20} strokeWidth={1.5} />
+                            <span style={{ fontSize: 11, fontWeight: 500 }}>Orders</span>
+                        </Link>
 
-                        {/* Right actions */}
-                        <div className="flex items-center gap-1">
-                            {/* Search */}
-                            <button
-                                onClick={() => setSearchOpen(!searchOpen)}
-                                className="p-2.5 rounded-lg text-gray-600 hover:text-primary-600 hover:bg-primary-50 dark:text-gray-400 dark:hover:text-primary-400 dark:hover:bg-primary-950/30 transition-colors"
-                                aria-label="Search products"
-                            >
-                                <Search className="w-5 h-5" />
-                            </button>
+                        {/* Cart */}
+                        <button onClick={openCart} style={{
+                            position: "relative",
+                            display: "flex", flexDirection: "column", alignItems: "center", gap: 2,
+                            padding: "6px 14px", background: "none", border: "none",
+                            color: "#9CA3AF", cursor: "pointer", borderRadius: 8,
+                        }}
+                            className="icon-btn-labeled"
+                            aria-label="Open cart"
+                        >
+                            <ShoppingBag size={20} strokeWidth={1.5} />
+                            <span style={{ fontSize: 11, fontWeight: 500 }}>Cart</span>
+                            {/* Badge */}
+                            <span style={{
+                                position: "absolute", top: 2, right: 8,
+                                background: "#00D4FF", color: "#0A0F1E",
+                                fontSize: 10, fontWeight: 800,
+                                width: 18, height: 18, borderRadius: "50%",
+                                display: "flex", alignItems: "center", justifyContent: "center",
+                            }}>
+                                {cartCount > 9 ? "9+" : cartCount}
+                            </span>
+                        </button>
 
-                            {/* Wishlist */}
-                            <Link
-                                href="/account"
-                                className="p-2.5 rounded-lg text-gray-600 hover:text-primary-600 hover:bg-primary-50 dark:text-gray-400 dark:hover:text-primary-400 dark:hover:bg-primary-950/30 transition-colors hidden sm:flex"
-                                aria-label="Wishlist"
-                            >
-                                <Heart className="w-5 h-5" />
-                            </Link>
-
-                            {/* Account */}
-                            <Link
-                                href="/login"
-                                className="p-2.5 rounded-lg text-gray-600 hover:text-primary-600 hover:bg-primary-50 dark:text-gray-400 dark:hover:text-primary-400 dark:hover:bg-primary-950/30 transition-colors"
-                                aria-label="Account"
-                            >
-                                <User className="w-5 h-5" />
-                            </Link>
-
-                            {/* Cart */}
-                            <button
-                                onClick={openCart}
-                                className="relative p-2.5 rounded-lg text-gray-600 hover:text-primary-600 hover:bg-primary-50 dark:text-gray-400 dark:hover:text-primary-400 dark:hover:bg-primary-950/30 transition-colors"
-                                aria-label={`Shopping cart (${cartCount} items)`}
-                            >
-                                <ShoppingBag className="w-5 h-5" />
-                                {cartCount > 0 && (
-                                    <span className="absolute -top-0.5 -right-0.5 h-4 w-4 rounded-full bg-accent-500 text-white text-[10px] font-bold flex items-center justify-center">
-                                        {cartCount > 9 ? "9+" : cartCount}
-                                    </span>
-                                )}
-                            </button>
-                        </div>
+                        {/* Mobile hamburger */}
+                        <button
+                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                            style={{
+                                display: "none", // hidden on desktop via CSS
+                                background: "none", border: "none",
+                                color: "#F9FAFB", cursor: "pointer", padding: 8,
+                            }}
+                            className="mobile-hamburger"
+                            aria-label="Toggle menu"
+                        >
+                            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+                        </button>
                     </div>
                 </div>
             </div>
 
-            {/* Search overlay */}
-            {searchOpen && (
-                <div className="absolute inset-x-0 top-full bg-white dark:bg-surface-dark shadow-elevated animate-slide-down border-b border-gray-200 dark:border-gray-700">
-                    <div className="mx-auto max-w-3xl px-4 py-6">
-                        <div className="relative">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                            <input
-                                type="search"
-                                placeholder="Search products, collections, brands..."
-                                className="w-full h-12 pl-12 pr-4 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-surface-dark-secondary text-gray-900 dark:text-white placeholder:text-gray-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 focus:outline-none transition-colors"
-                                autoFocus
-                            />
-                        </div>
-                        <div className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-                            <p>Popular searches: T-shirts, Electronics, Summer collection</p>
-                        </div>
-                    </div>
-                </div>
-            )}
+            {/* ── ROW 2: Shop By Category | Today's Deals | New Arrivals | Gift Guides | Support ── */}
+            <div style={{
+                background: "rgba(8,12,24,0.98)",
+                backdropFilter: "blur(20px)",
+                borderBottom: "1px solid #1F2937",
+                padding: "0 48px",
+            }}>
+                <div style={{
+                    maxWidth: 1440, margin: "0 auto",
+                    display: "flex", alignItems: "center",
+                    height: 44, gap: 0,
+                }}>
+                    {/* Shop By Category dropdown trigger */}
+                    <div style={{ position: "relative" }}>
+                        <button
+                            onClick={() => setCatOpen(!catOpen)}
+                            style={{
+                                display: "flex", alignItems: "center", gap: 8,
+                                background: "none", border: "none", cursor: "pointer",
+                                padding: "0 20px 0 0", height: 44,
+                                color: "#00D4FF", fontWeight: 700, fontSize: 14,
+                                fontFamily: "Space Grotesk, sans-serif",
+                            }}
+                        >
+                            <Menu size={18} style={{ marginRight: 2 }} />
+                            Shop By Category
+                            <ChevronDown size={14} style={{ marginLeft: 2, transform: catOpen ? "rotate(180deg)" : "none", transition: "transform 0.2s" }} />
+                        </button>
 
-            {/* Mobile menu */}
-            {mobileMenuOpen && (
-                <div className="lg:hidden absolute inset-x-0 top-full bg-white dark:bg-surface-dark shadow-elevated animate-slide-down border-b border-gray-200 dark:border-gray-700">
-                    <nav className="px-4 py-4 space-y-1" aria-label="Mobile navigation">
-                        {NAV_LINKS.map((link) => (
-                            <Link
-                                key={link.href}
-                                href={link.href}
-                                className="block px-4 py-3 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-950/30 rounded-lg transition-colors"
-                                onClick={() => setMobileMenuOpen(false)}
+                        {/* Dropdown */}
+                        {catOpen && (
+                            <div style={{
+                                position: "absolute", top: "100%", left: 0, zIndex: 100,
+                                background: "#111827", border: "1px solid #374151",
+                                borderRadius: 10, padding: "8px 0", minWidth: 220,
+                                boxShadow: "0 16px 48px rgba(0,0,0,0.5)",
+                            }}>
+                                {CATEGORIES_DROPDOWN.map(cat => (
+                                    <Link key={cat.href} href={cat.href}
+                                        onClick={() => setCatOpen(false)}
+                                        style={{
+                                            display: "block", padding: "9px 18px",
+                                            fontSize: 14, color: "#9CA3AF", textDecoration: "none",
+                                            transition: "all 0.15s ease",
+                                        }}
+                                        className="footer-link"
+                                    >
+                                        {cat.label}
+                                    </Link>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Divider */}
+                    <div style={{ width: 1, height: 20, background: "#374151", margin: "0 16px" }} />
+
+                    {/* Nav links */}
+                    <nav style={{ display: "flex", alignItems: "center", gap: 0 }}>
+                        {CATEGORY_NAV.map(link => (
+                            <Link key={link.href} href={link.href}
+                                className="nav-link"
+                                style={{
+                                    padding: "0 16px", height: 44,
+                                    display: "flex", alignItems: "center",
+                                    fontSize: 14, fontWeight: 500,
+                                    whiteSpace: "nowrap",
+                                }}
                             >
                                 {link.label}
                             </Link>
                         ))}
-                        <div className="pt-4 border-t border-gray-200 dark:border-gray-700 mt-4">
-                            <Link
-                                href="/login"
-                                className="block px-4 py-3 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-950/30 rounded-lg transition-colors"
-                                onClick={() => setMobileMenuOpen(false)}
-                            >
-                                Sign In / Register
-                            </Link>
-                        </div>
                     </nav>
+                </div>
+            </div>
+
+            {/* ── Mobile Menu ── */}
+            {mobileMenuOpen && (
+                <div style={{
+                    background: "#111827", borderBottom: "1px solid #374151",
+                    padding: "16px 20px", display: "flex", flexDirection: "column", gap: 4,
+                }}>
+                    {[...CATEGORIES_DROPDOWN, ...CATEGORY_NAV].map(link => (
+                        <Link key={link.href} href={link.href}
+                            onClick={() => setMobileMenuOpen(false)}
+                            style={{
+                                padding: "10px 16px", borderRadius: 8, fontSize: 14,
+                                fontWeight: 500, color: "#9CA3AF", textDecoration: "none",
+                            }}
+                        >
+                            {link.label}
+                        </Link>
+                    ))}
                 </div>
             )}
         </header>
